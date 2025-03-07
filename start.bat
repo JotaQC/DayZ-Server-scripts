@@ -2,7 +2,9 @@
 ::Window format
 mode con: cols=100 lines=5
 
-::Do not place quotation marks ("") where they are not present
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   Do not place quotation marks ("") where they are not present   ::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :start
 
