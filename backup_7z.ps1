@@ -1,5 +1,5 @@
 Param(
-    [string]$sourceDir = "C:\Program Files (x86)\Steam\steamapps\common\DayZServer",
+    [string]$sourceDir = "C:\DayZServer",
     [string]$backupDir = "H:\",
     [string]$compressionLevel = 3, # Set compression level: 1 = fastest, 9 = highest compression
     [string]$logsPath = "H:\Logs\BackupsLogs"
