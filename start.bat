@@ -40,7 +40,7 @@ echo (%time%) -- %serverName% started.
 start "DayZ Server" /min "DayZServer_x64.exe" -profiles=%profile% -config=%serverConfig% -port=%serverPort% "-servermod=%servermods%" "-mod=%mods%" -cpuCount=%serverCPU% -dologs -adminlog -netlog -freezecheck
 
 ::Time in seconds before terminating the server process (14400 = 4 hours)
-timeout 15
+timeout 14530
 cls
 taskkill /im DayZServer_x64.exe /F
 
