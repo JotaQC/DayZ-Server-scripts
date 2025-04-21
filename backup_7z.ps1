@@ -75,7 +75,7 @@ Start-Process -FilePath $sevenZipCmd -ArgumentList $arguments -NoNewWindow -Wait
 }
 "[+] [$(Get-Date -Format 'HH:mm:ss')] -- Hashes generated and saved to file. -- Checksum file: $backupPath\checksums.txt" | Out-File -FilePath "$logsPath\BackupInfo.log" -Encoding UTF8 -Append
 "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" | Out-File -FilePath "$logsPath\BackupInfo.log" -Encoding UTF8 -Append
-# Output the final backup path to the console
 "[+] [$(Get-Date -Format 'HH:mm:ss')] -- Backup Script Running Complete." | Out-File -FilePath "$logsPath\BackupInfo.log" -Encoding UTF8 -Append
 "////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////" | Out-File -FilePath "$logsPath\BackupInfo.log" -Encoding UTF8 -Append
+# Print the backup file path after the backup is complete
 Write-Output "Backup created: $zipFilePath"
