@@ -1,2 +1,2 @@
-# DayZ-Server-start-script
-This is my start.bat that I made for my own server.
+# Scripts that I made for my DayZ Server 
+These are custom scripts I made for my server. (start.cmd and backup.ps1)
