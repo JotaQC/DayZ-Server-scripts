@@ -15,7 +15,7 @@ These are custom scripts I created for my DayZ Server: `start.cmd` and `backup_7
 ><br>_<sub>I used the **.msi** installer for 64-bit, in case you're interested.</sub>_
 
 >[!WARNING]
->It is recommended to have **PowerShell 7** installed for compatibility with **[backup_7z.ps1]()**. Download it from **[here](https://github.com/PowerShell/PowerShell/releases)**.
+>It is recommended to have **PowerShell 7** installed for compatibility with **[backup_7z.ps1](https://github.com/JotaQC/DayZ-Server-scripts/blob/main/backup_7z.ps1)**. Download it from **[here](https://github.com/PowerShell/PowerShell/releases)**.
 ><br>_<sub>For stability, always use the **Latest** version, **NOT** the **Pre-release** — that’s what I prefer.</sub>_
 
 <br>
