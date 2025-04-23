@@ -8,6 +8,7 @@ Param(
 # Generate timestamp string for folder and file naming
 $dateTime = (Get-Date -Format "dd-MM-yyyy_-_HH'h'-mm'm'-ss's'")
 
+# Create backup logs directory (if it doesn't exist)
 if (-not (Test-Path $logsPath)) {
     New-Item -ItemType Directory -Path $logsPath -Force | Out-Null
 }
@@ -39,7 +40,6 @@ $zipFilePath = Join-Path $backupPath $zipFileName
 
 # Create the backup directory (if it doesn't exist) | It will never exist, but it is a good practice to check in case the structure changes in the future and the time is no longer added to the name
 "[*] [$(Get-Date -Format 'HH:mm:ss')] -- Checking if backup directory exists . . ." | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
-
 if (-not (Test-Path $backupPath)) {
     "[*] [$(Get-Date -Format 'HH:mm:ss')] -- Creating backup directory . . ." | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
     New-Item -ItemType Directory -Force -Path $backupPath
@@ -74,5 +74,6 @@ Start-Process -FilePath $sevenZipCmd -ArgumentList $arguments -NoNewWindow -Wait
 "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
 "[+] [$(Get-Date -Format 'HH:mm:ss')] -- Backup Script Running Complete." | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
 "////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////" | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
+
 # Print the backup file path after the backup is complete
 Write-Output "Backup created: $zipFilePath"
