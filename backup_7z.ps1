@@ -10,9 +10,9 @@ $dateTime = (Get-Date -Format "dd-MM-yyyy_-_HH'h'-mm'm'-ss's'")
 
 if (-not (Test-Path $logsPath)) {
     New-Item -ItemType Directory -Path $logsPath -Force | Out-Null
-    "[+] [$(Get-Date -Format 'HH:mm:ss')] -- Timestamp generated and log backup file created. -- Timestamp: $dateTime" | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
-    "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
 }
+"[+] [$(Get-Date -Format 'HH:mm:ss')] -- Timestamp generated and log backup file created. -- Timestamp: $dateTime" | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
+"--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
 
 # This script will also save every process of the backup as a log
 "[*] [$(Get-Date -Format 'HH:mm:ss')] -- Backup Script Running . . ." | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
