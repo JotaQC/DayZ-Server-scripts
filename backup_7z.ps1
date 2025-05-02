@@ -62,11 +62,35 @@ Start-Process -FilePath $sevenZipCmd -ArgumentList $arguments -NoNewWindow -Wait
 "[+] [$(Get-Date -Format 'HH:mm:ss')] -- 7-Zip finished compression." | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
 "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
 
+# Waits until a file is no longer locked before continuing.
+# This is used to avoid access errors when a file may still be in use after compression completes, especially on slower systems or under high CPU load, where the file handle isn't released immediately.
+function Wait-ForFileUnlock {
+    param (
+        [string]$filePath,
+        [int]$timeoutInSeconds = 30
+    )
+    $sw = [System.Diagnostics.Stopwatch]::StartNew()
+    while ($sw.Elapsed.TotalSeconds -lt $timeoutInSeconds) {
+        try {
+            $stream = [System.IO.File]::Open($filePath, 'Open', 'Read', 'None')
+            $stream.Close()
+            return $true
+        } catch {
+            Start-Sleep -Milliseconds 500
+        }
+    }
+    throw "Timeout waiting for file to be released: $filePath"
+}
+
+"[*] [$(Get-Date -Format 'HH:mm:ss')] -- Waiting for ZIP file to be released . . ." | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
+Wait-ForFileUnlock -filePath $zipFilePath
+"[+] [$(Get-Date -Format 'HH:mm:ss')] -- ZIP file is unlocked and ready for hashing." | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
+
 # Generate file hashes (SHA1, SHA256, MD5) in parallel and write them to checksums.txt
 "[*] [$(Get-Date -Format 'HH:mm:ss')] -- Generating file hashes in SHA1, SH256 and MD5 . . ." | Out-File -FilePath "$logsPath\BackupInfo_$dateTime.log" -Encoding UTF8 -Append
-@('SHA1', 'SHA256', 'MD5') | ForEach-Object -Parallel {
-    $hash = Get-FileHash -Path $using:zipFilePath -Algorithm $_ | Format-List
-    $outPath = "$using:backupPath\checksums.txt"
+@('SHA1', 'SHA256', 'MD5') | ForEach-Object {
+    $hash = Get-FileHash -Path $zipFilePath -Algorithm $_ | Format-List
+    $outPath = "$backupPath\checksums.txt"
     $append = if ($_ -eq 'SHA1') { $false } else { $true }
     $hash | Out-File -FilePath $outPath -Append:$append
 }
