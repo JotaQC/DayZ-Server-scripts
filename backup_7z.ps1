@@ -5,6 +5,22 @@ Param(
     [string]$logsPath = "H:\Logs\BackupsLogs"
 )
 
+# Check if the backup drive is available
+if (-not (Test-Path $backupDir)) {
+    $errorMessage = "[!] [$(Get-Date -Format 'HH:mm:ss')] -- The backup destination drive ($backupDir) is not available. Aborting backup."
+    Write-Error $errorMessage
+
+    # Fallback log location if remote drive is unavailable
+    $localLogPath = "C:\BackupErrorLogs"
+    if (-not (Test-Path $localLogPath)) {
+        New-Item -ItemType Directory -Path $localLogPath -Force | Out-Null
+    }
+    $fallbackLogFile = "$localLogPath\BackupError_$(Get-Date -Format 'dd-MM-yyyy_HH-mm-ss').log"
+    $errorMessage | Out-File -FilePath $fallbackLogFile -Encoding UTF8 -Append
+
+    exit 1
+}
+
 # Generate timestamp string for folder and file naming
 $dateTime = (Get-Date -Format "dd-MM-yyyy_-_HH'h'-mm'm'-ss's'")
 
